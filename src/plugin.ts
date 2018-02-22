@@ -4,6 +4,7 @@ import * as path from "path";
 import * as Options from "./options";
 import * as Logger from "./logger";
 import { Stats } from "fs";
+import * as proc from "process";
 
 interface ResolverPlugin {
   readonly apply: (resolver: Resolver) => void;
@@ -114,6 +115,7 @@ export class TsconfigPathsPlugin implements ResolverPlugin {
           loadResult.configFileAbsolutePath
         }`
       );
+      this.log.logInfo(`env TS_NODE_PROJECT: ${proc.env.TS_NODE_PROJECT}`);
       this.baseUrl = options.baseUrl || loadResult.baseUrl;
       this.absoluteBaseUrl = options.baseUrl
         ? path.resolve(options.baseUrl)
