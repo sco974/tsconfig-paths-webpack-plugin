@@ -115,7 +115,7 @@ export class TsconfigPathsPlugin implements ResolverPlugin {
           loadResult.configFileAbsolutePath
         }`
       );
-      this.log.logInfo(`env TS_NODE_PROJECT: ${proc.env.TS_NODE_PROJECT}`);
+      this.log.logInfo(`tsconfig-paths-webpack-plugin: env TS_NODE_PROJECT: ${proc.env.TS_NODE_PROJECT}`);
       this.baseUrl = options.baseUrl || loadResult.baseUrl;
       this.absoluteBaseUrl = options.baseUrl
         ? path.resolve(options.baseUrl)
