@@ -19,7 +19,8 @@ const validOptions: ReadonlyArray<ValidOptions> = [
   "silent",
   "logLevel",
   "logInfoToStdOut",
-  "context"
+  "context",
+  "colors"
 ];
 
 /**
@@ -30,7 +31,6 @@ export function getOptions(rawOptions: {}): Options {
   validateOptions(rawOptions);
 
   const options = makeOptions(rawOptions);
-
   return options;
 }
 
@@ -54,10 +54,15 @@ ${validOptions.join(" / ")}
   }
 }
 
+const configFileDefault = "tsconfig.json";
+
+import * as pth from "path";
+import * as proc from "process";
+
 function makeOptions(rawOptions: Partial<Options>): Options {
   const options: Options = {
     ...({
-      configFile: "tsconfig.json",
+      configFile: configFileDefault,
       extensions: [".ts", ".tsx"],
       baseUrl: undefined,
       silent: false,
@@ -69,8 +74,26 @@ function makeOptions(rawOptions: Partial<Options>): Options {
     ...rawOptions
   };
 
+  let options1: Options = options;
+
+  //litle to dirty hack to make things work well with ts-loader
+  if (options1.configFile !== configFileDefault) {
+    //compute the absolute path name
+    const flPth = pth.resolve(options.configFile);
+    //filename with extension
+    const flNm =  pth.win32.basename(flPth);
+    //set the filename and extension to the special env variable
+    proc.env.TS_NODE_PROJECT = flNm;
+
+    options1 = {
+      ...options,
+      // set the confile to the path containing the file name
+      configFile: pth.dirname(flPth)
+    };
+  }
+
   const options2: Options = {
-    ...options,
+    ...options1,
     logLevel: options.logLevel.toUpperCase() as LogLevel
   };
 

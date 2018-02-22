@@ -29,16 +29,19 @@
     "compile": "tsc -p src",
     "compile:tests": "tsc -p tests",
     "compile:example": "tsc -p example",
-    "example": "yarn build && cd example && webpack",
+    "example": "npm run build && cd example && webpack",
+    "compile:example2": "tsc -p example/tsconfig.example2.json",
+    "example2": "npm run build && cd example && webpack --config webpack2.config.js",
     "build": "rm -rf lib && tsc -p src",
-    "lint":
-      "tslint -t msbuild './src/**/*.ts{,x}' -e './src/node_modules/**/*'",
-    "publish:major": "yarn run build && node scripts/publish.js major",
-    "publish:minor": "yarn run build && node scripts/publish.js minor",
-    "publish:patch": "yarn run build && node scripts/publish.js patch"
+    "lint": "tslint -t msbuild './src/**/*.ts{,x}' -e './src/node_modules/**/*'",
+    "publish:major": "npm run build && node scripts/publish.js major",
+    "publish:minor": "npm run build && node scripts/publish.js minor",
+    "publish:patch": "npm run build && node scripts/publish.js patch"
   },
   "lint-staged": {
     "*.{ts,tsx}": "tslint",
-    "*.{ts,tsx,json,css}": ["prettier --write", "git add"]
+    "*.{ts,tsx,json,css}": [
+      "git add"
+    ]
   }
 }
