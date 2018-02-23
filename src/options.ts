@@ -81,9 +81,9 @@ function makeOptions(rawOptions: Partial<Options>): Options {
     //compute the absolute path name
     const flPth = pth.resolve(options.configFile);
     //filename with extension
-    const flNm =  pth.win32.basename(flPth);
+    //const flNm =  pth.win32.basename(flPth);
     //set the filename and extension to the special env variable
-    proc.env.TS_NODE_PROJECT = flNm;
+    proc.env.TS_NODE_PROJECT = flPth;
 
     options1 = {
       ...options,
